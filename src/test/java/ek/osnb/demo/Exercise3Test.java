@@ -80,7 +80,7 @@ class Exercise3Test {
 
     // A real login, because a mock user doesn't get FACTOR_PASSWORD
     private MockHttpSession loginAs(String username) {
-        MvcTestResult result = mvc.post().uri("/login")
+        MvcTestResult result = mvc.post().uri("/api/login")
                 .param("username", username)
                 .param("password", "pw")
                 .with(csrf())

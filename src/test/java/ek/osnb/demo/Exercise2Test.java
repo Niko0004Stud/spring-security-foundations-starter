@@ -21,14 +21,14 @@ class Exercise2Test {
 
     @Test
     void allThreeUsersFromTheDatabaseCanLogIn() {
-        assertThat(login("user1", "pw")).hasRedirectedUrl("/");
-        assertThat(login("user2", "pw")).hasRedirectedUrl("/");
-        assertThat(login("admin", "pw")).hasRedirectedUrl("/");
+        assertThat(login("user1", "pw")).hasStatus(HttpStatus.NO_CONTENT);
+        assertThat(login("user2", "pw")).hasStatus(HttpStatus.NO_CONTENT);
+        assertThat(login("admin", "pw")).hasStatus(HttpStatus.NO_CONTENT);
     }
 
     @Test
     void unknownUserIsRejected() {
-        assertThat(login("nobody", "pw")).hasRedirectedUrl("/login?error");
+        assertThat(login("nobody", "pw")).hasStatus(HttpStatus.UNAUTHORIZED);
     }
 
     @Test
@@ -49,7 +49,7 @@ class Exercise2Test {
     }
 
     private MvcTestResult login(String username, String password) {
-        return mvc.post().uri("/login")
+        return mvc.post().uri("/api/login")
                 .param("username", username)
                 .param("password", password)
                 .with(csrf())

@@ -12,17 +12,20 @@ async function render() {
     app.replaceChildren();
 
     try {
-        // TODO Exercise 6:
-        // Call getMe()
-        // Not logged in: show only createLogin(render)
-        // Logged in: also show createUserInfo(me, render), and pass me to createNotes(me)
+        const me = await getMe();
+
+        if (!me) {
+            app.append(createLogin(render));
+            return;
+        }
 
         const heading = document.createElement("h1");
         heading.textContent = "My Notes";
 
         app.append(
             heading,
-            createNotes()
+            createUserInfo(me, render),
+            createNotes(me)
         );
 
     } catch (error) {

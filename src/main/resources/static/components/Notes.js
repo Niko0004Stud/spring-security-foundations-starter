@@ -28,7 +28,11 @@ export function createNotes(me) {
     const adminButton = section.querySelector("#admin-button");
     const message = section.querySelector(".message");
 
-    // TODO Exercise 6: Show the admin button only for users with ROLE_ADMIN
+    // Hiding a button is not authorization.
+    // Spring Security must protect the admin endpoint.
+    if (me.roles.includes("ROLE_ADMIN")) {
+        adminButton.hidden = false;
+    }
 
     async function loadNotes(url = "/api/notes") {
         try {

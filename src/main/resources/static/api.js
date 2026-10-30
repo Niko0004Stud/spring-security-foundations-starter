@@ -1,25 +1,42 @@
 
 export async function getMe() {
-    // TODO Exercise 6:
-    // GET /api/me
-    // Return null if the status is 401
-    // Otherwise return the user data
-    throw new Error("getMe is not implemented yet");
+    const response = await fetch("/api/me");
+
+    if (response.status === 401) {
+        return null;
+    }
+
+    return await response.json();
 }
 
 export async function login(formData) {
-    // TODO Exercise 6:
-    // POST /api/login
-    // Send username and password as form data
-    // Include the CSRF token
-    throw new Error("login is not implemented yet");
+    const res = await fetch("/api/login", {
+        method: "POST",
+        // Send username and password as form data
+        body: new URLSearchParams(formData),
+        headers: {
+            // Include the CSRF token
+            "X-XSRF-TOKEN": csrfToken()
+        }
+    });
+
+    if (!res.ok) {
+        throw new Error("Login failed");
+    }
 }
 
 export async function logout() {
-    // TODO Exercise 6:
-    // POST /api/logout
-    // Include the CSRF token
-    throw new Error("logout is not implemented yet");
+    const res = await fetch("/api/logout", {
+        method: "POST",
+        headers: {
+            // Include the CSRF token
+            "X-XSRF-TOKEN": csrfToken()
+        }
+    });
+
+    if (!res.ok) {
+        throw new Error("An error occurred while logging out");
+    }
 }
 
 export async function getNotes(url = "/api/notes") {

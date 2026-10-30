@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class Exercise5Test {
 
-    private static final String LOGIN_URL = "/login";
+    private static final String LOGIN_URL = "/api/login";
 
     @LocalServerPort
     private int port;
