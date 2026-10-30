@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,11 +24,12 @@ class NoteController {
         return notes.findByOwner(authentication.getName());
     }
 
-    // A form post (text=...), just like the login form
+    record CreateNoteRequest(String text) {}
+
     @PostMapping("/api/notes")
     @ResponseStatus(HttpStatus.CREATED)
-    Note addNote(@RequestParam String text, Authentication authentication) {
-        return notes.save(new Note(text, authentication.getName()));
+    Note addNote(@RequestBody CreateNoteRequest request, Authentication auth) {
+        return notes.save(new Note(request.text(), auth.getName()));
     }
 
     // Only for admins, see SecurityConfig

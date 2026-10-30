@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.assertj.MockMvcTester;
@@ -50,8 +51,10 @@ class Exercise3Test {
     @WithMockUser(username = "user2")
     void theServerDecidesTheOwner() {
         assertThat(mvc.post().uri("/api/notes")
-                .param("text", "Study Spring Security")
-                .param("owner", "user1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                        {"text": "Study Spring Security", "owner": "user1"}
+                        """)
                 .with(csrf())
                 .exchange())
                 .hasStatus(HttpStatus.CREATED)

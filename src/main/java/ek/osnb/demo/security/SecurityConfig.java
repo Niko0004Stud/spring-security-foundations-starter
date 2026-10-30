@@ -21,7 +21,9 @@ class SecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .formLogin(Customizer.withDefaults())
-                .logout(Customizer.withDefaults());
+                .logout(Customizer.withDefaults())
+                // CSRF token in the XSRF-TOKEN cookie, sent back in the X-XSRF-TOKEN header
+                .csrf(csrf -> csrf.spa());
 
         return http.build();
     }
