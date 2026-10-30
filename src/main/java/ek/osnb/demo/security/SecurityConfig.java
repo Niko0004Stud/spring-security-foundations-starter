@@ -21,9 +21,7 @@ class SecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .formLogin(Customizer.withDefaults())
-                .logout(Customizer.withDefaults())
-                // Off for now, so the page can add notes. Exercises 4 and 5 come back to this
-                .csrf(csrf -> csrf.disable());
+                .logout(Customizer.withDefaults());
 
         return http.build();
     }
