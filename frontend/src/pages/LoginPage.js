@@ -1,11 +1,12 @@
 import { login } from "../api.js";
+import { refreshUser } from "../auth.js";
+import { router } from "../router.js";
 
-export function createLogin(onLogin) {
-    const section = document.createElement("section");
+export function LoginPage() {
+    const element = document.createElement("section");
 
-    section.innerHTML = `
-        <h1>My Notes</h1>
-        <h2>Log in</h2>
+    element.innerHTML = `
+        <h1>Log in</h1>
 
         <form>
             <input name="username"
@@ -25,20 +26,29 @@ export function createLogin(onLogin) {
         <p class="message"></p>
     `;
 
-    const form = section.querySelector("form");
-    const message = section.querySelector(".message");
+    const form = element.querySelector("form");
+    const message = element.querySelector(".message");
 
     form.addEventListener("submit", async (event) => {
         event.preventDefault();
+        message.textContent = "";
 
         try {
             await login(new FormData(form));
-            await onLogin();
+            await refreshUser();
+            router.navigate("/notes");
         } catch (error) {
-            message.textContent = "Could not log in.";
+            message.textContent = error.status === 401
+                ? "Wrong username or password."
+                : "Could not log in.";
             console.error(error);
         }
     });
 
-    return section;
+    return {
+        element,
+        mount() {
+            form.elements.username.focus();
+        }
+    };
 }
