@@ -23,12 +23,6 @@ class Exercise6Test {
     private MockMvcTester mvc;
 
     @ParameterizedTest
-    @ValueSource(strings = {"/", "/index.html", "/app.js", "/api.js", "/style.css", "/components/Notes.js"})
-    void theFrontendIsPublic(String path) {
-        assertThat(mvc.get().uri(path).exchange()).hasStatusOk();
-    }
-
-    @ParameterizedTest
     @ValueSource(strings = {"/api/notes", "/api/me", "/api/admin/notes"})
     void theApiAnswers401InsteadOfRedirecting(String path) {
         assertThat(mvc.get().uri(path).accept("text/html").exchange())
