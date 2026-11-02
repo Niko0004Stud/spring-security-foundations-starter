@@ -93,3 +93,42 @@ button:hover {
 [hidden] {
     display: none !important;
 }
+
+.site-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 20px;
+    max-width: 650px;
+    margin: 0 auto 24px;
+}
+
+.site-header nav {
+    display: flex;
+    gap: 16px;
+    flex: 1;
+}
+
+.site-header a,
+main a {
+    color: #2563eb;
+}
+
+.header-user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+main > section:first-child {
+    border-top: none;
+    margin-top: 0;
+    padding-top: 0;
+}
+
+.message:not(:empty) {
+    padding: 10px;
+    background: #fef2f2;
+    color: #b91c1c;
+    border-radius: 6px;
+}
