@@ -1,6 +1,7 @@
 import { refreshUser } from "./auth.js";
 import { initHeader } from "./components/Header.js";
-import { requireAuth } from "./guards.js";
+import { requireAuth, requireGuest, requireRole } from "./guards.js";
+import { AdminPage } from "./pages/AdminPage.js";
 import { NotFoundPage, ServerDownPage } from "./pages/ErrorPages.js";
 import { HomePage } from "./pages/HomePage.js";
 import { LoginPage } from "./pages/LoginPage.js";
@@ -20,8 +21,9 @@ async function init() {
 
     router
         .on("/", () => render(HomePage))
-        .on("/login", () => render(LoginPage))
+        .on("/login", requireGuest(LoginPage))
         .on("/notes", requireAuth(NotesPage))
+        .on("/admin", requireRole(AdminPage, "ROLE_ADMIN"))
         .notFound(() => render(NotFoundPage))
         .resolve();
 }

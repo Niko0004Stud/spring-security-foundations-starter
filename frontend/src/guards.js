@@ -1,4 +1,5 @@
 import { getCurrentUser, setCurrentUser } from "./auth.js";
+import { ForbiddenPage } from "./pages/ErrorPages.js";
 import { render, router } from "./router.js";
 
 // Guards only decide what the user sees. Anyone can change the JavaScript in
@@ -11,6 +12,35 @@ export function requireAuth(Page) {
     return () => {
         if (!getCurrentUser()) {
             router.navigate("/login", REDIRECT);
+            return;
+        }
+
+        render(Page);
+    };
+}
+
+export function requireRole(Page, role) {
+    return () => {
+        const user = getCurrentUser();
+
+        if (!user) {
+            router.navigate("/login", REDIRECT);
+            return;
+        }
+
+        if (!user.roles.includes(role)) {
+            render(ForbiddenPage);
+            return;
+        }
+
+        render(Page);
+    };
+}
+
+export function requireGuest(Page) {
+    return () => {
+        if (getCurrentUser()) {
+            router.navigate("/", REDIRECT);
             return;
         }
 
