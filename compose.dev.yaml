@@ -1,0 +1,17 @@
+name: notes
+
+services:
+  frontend:
+    image: nginx:1.30-alpine
+    volumes:
+      - ./frontend/src:/usr/share/nginx/html:ro
+      - ./frontend/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+
+  caddy:
+    image: caddy:2.11-alpine
+    ports:
+      - "127.0.0.1:8088:80"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
