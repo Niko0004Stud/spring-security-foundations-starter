@@ -1,9 +1,11 @@
-:80 {
-    handle /api/* {
-        reverse_proxy host.docker.internal:8080
-    }
+{$SITE_ADDRESS} {
+	# TODO Part 5: send the GitHub login paths to the BFF as well
 
-    handle {
-        reverse_proxy frontend:80
-    }
+	handle /api/* {
+		reverse_proxy {$API_UPSTREAM}
+	}
+
+	handle {
+		reverse_proxy {$FRONTEND_UPSTREAM}
+	}
 }
