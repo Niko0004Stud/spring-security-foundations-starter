@@ -23,6 +23,8 @@ export function LoginPage() {
             <button type="submit">Log in</button>
         </form>
 
+        <!-- TODO Part 5: add a "Log in with GitHub" link here -->
+
         <p class="message"></p>
     `;
 
