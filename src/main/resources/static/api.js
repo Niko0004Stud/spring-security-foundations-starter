@@ -45,9 +45,7 @@ export async function addNote(formData) {
 }
 
 
-function csrfToken() {
-    // TODO Exercise 5:
-    // Read XSRF-TOKEN from document.cookie
-    // Decode the value
-    // Return the token
+function getCsrfToken() {
+    const match = document.cookie.match(/XSRF-TOKEN=([^;]+)/);
+    return match ? decodeURIComponent(match[1]) : null;
 }
